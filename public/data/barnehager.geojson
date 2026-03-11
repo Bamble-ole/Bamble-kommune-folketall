@@ -1,0 +1,437 @@
+{
+  "type": "FeatureCollection",
+  "name": "Barnehage",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "id8489eeec-7dcb-492e-a646-f10828a802f8",
+        "lokalId": "46847f23-9aae-4d88-b756-3396c5dc9659",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Rønholt barnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 972286419,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 39,
+        "antallAnsatte": 15,
+        "antallBarnPerBarnehagelærer": 11.3,
+        "eierforhold": "Offentlig",
+        "kostpenger": 328,
+        "åpningstidFra": "06:45",
+        "åpningstidTil": "16:45",
+        "adressenavn": "Rønholtveien 71",
+        "postnummer": 3967,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.57144,
+          58.9739
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "ided1abc93-432f-4abb-b514-16126e6ce790",
+        "lokalId": "57469ab7-2961-4539-a148-2a9728f6e9be",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Tirilltoppen barnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 973494597,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 51,
+        "antallAnsatte": 27,
+        "antallBarnPerBarnehagelærer": 14,
+        "eierforhold": "Privat",
+        "kostpenger": 450,
+        "åpningstidFra": "07:15",
+        "åpningstidTil": "16:30",
+        "adressenavn": "Reiduns vei 5",
+        "postnummer": 3961,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/",
+        "lenkeHjemmeside": "http://www.tirilltoppen.barnehage.no"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.70757,
+          59.02397
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "idc0d7a65c-addb-4f42-a00f-e187325dd499",
+        "lokalId": "7f3afacf-6a50-4079-b6d2-ed91a54c69b1",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Sundby barnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 975295516,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 49,
+        "antallAnsatte": 22,
+        "antallBarnPerBarnehagelærer": 13,
+        "eierforhold": "Offentlig",
+        "kostpenger": 328,
+        "åpningstidFra": "07:00",
+        "åpningstidTil": "16:45",
+        "adressenavn": "Sykehjemsveien 2",
+        "postnummer": 3961,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.72538,
+          59.01933
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "id64a2f856-69a6-4b83-8f0f-b97cc4295990",
+        "lokalId": "4ff2ca95-d7b4-4d94-aae4-c65317de0d06",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Falkåsen Kunst- og kulturbarnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 975297101,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 53,
+        "antallAnsatte": 18,
+        "antallBarnPerBarnehagelærer": 12,
+        "eierforhold": "Offentlig",
+        "kostpenger": 328,
+        "åpningstidFra": "07:00",
+        "åpningstidTil": "16:45",
+        "adressenavn": "Falkåsveien 14",
+        "postnummer": 3960,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.69414,
+          59.04204
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "id9e8c4b63-8ec3-4c37-9312-c1899bced1d5",
+        "lokalId": "a7385c84-672f-4b6f-8b1a-d3d34df4abe4",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Nustad barnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 975307158,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 100,
+        "antallAnsatte": 26,
+        "antallBarnPerBarnehagelærer": 12.5,
+        "eierforhold": "Offentlig",
+        "kostpenger": 328,
+        "åpningstidFra": "07:00",
+        "åpningstidTil": "16:30",
+        "adressenavn": "Øvre Nustadvei 30",
+        "postnummer": 3970,
+        "poststed": "Langesund",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.72884,
+          59.0108
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "id3942a1da-4385-4507-9e9a-71f97f15dd56",
+        "lokalId": "8b5846ab-5c7c-4256-889a-d9685ee9252a",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Uksodden barnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 975307166,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 42,
+        "antallAnsatte": 15,
+        "antallBarnPerBarnehagelærer": 11.8,
+        "eierforhold": "Offentlig",
+        "kostpenger": 328,
+        "åpningstidFra": "07:00",
+        "åpningstidTil": "16:30",
+        "adressenavn": "Strandveien 6B",
+        "postnummer": 3965,
+        "poststed": "Herre",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.54779,
+          59.11479
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "idcdaf07cd-075a-49f8-9c92-e4d93d0efbe7",
+        "lokalId": "61765b23-68ad-43ed-821d-e1c29e048418",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Solstua kulturbarnehage AS",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 984684134,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 37,
+        "antallAnsatte": 16,
+        "antallBarnPerBarnehagelærer": 12.3,
+        "eierforhold": "Privat",
+        "kostpenger": 300,
+        "åpningstidFra": "07:00",
+        "åpningstidTil": "16:30",
+        "adressenavn": "Reiduns vei 1",
+        "postnummer": 3961,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.70777,
+          59.0243
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "ida6b5f5e9-abed-4b68-affa-591c62412c8d",
+        "lokalId": "4f1b1f5a-80a1-491e-a142-c63744dc12be",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Stokkevannet barnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 985488886,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 49,
+        "antallAnsatte": 18,
+        "antallBarnPerBarnehagelærer": 13.2,
+        "eierforhold": "Offentlig",
+        "kostpenger": 400,
+        "åpningstidFra": "06:45",
+        "åpningstidTil": "16:45",
+        "adressenavn": "Europaveien 135",
+        "postnummer": 3962,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.67256,
+          59.03732
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "id300111d6-d849-43d1-b758-606a06d1f945",
+        "lokalId": "5b99c723-73f6-44ae-bab9-a22fe18f6777",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Grasmyr naturbarnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 987130008,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 76,
+        "antallAnsatte": 35,
+        "antallBarnPerBarnehagelærer": 11.9,
+        "eierforhold": "Offentlig",
+        "kostpenger": 328,
+        "åpningstidFra": "07:00",
+        "åpningstidTil": "16:45",
+        "adressenavn": "Tønderveien 11",
+        "postnummer": 3961,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/",
+        "lenkeHjemmeside": "http://www.bamble.kommune.no/SB/barnehager/grasmyr-barnehage/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.70242,
+          59.02937
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "idba19ff9f-b502-4427-a94e-c597389f4749",
+        "lokalId": "0e32bc89-fc0e-404e-9261-2223954c23fc",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Læringsverkstedet Marthas Hage idrettsbarnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 996566528,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 81,
+        "antallAnsatte": 26,
+        "antallBarnPerBarnehagelærer": 14.5,
+        "eierforhold": "Privat",
+        "kostpenger": 475,
+        "åpningstidFra": "06:30",
+        "åpningstidTil": "17:00",
+        "adressenavn": "Hans Petters vei 19",
+        "postnummer": 3962,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.65606,
+          59.04534
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "gml_id": "ida573f38f-bb39-4532-a441-576c9f1a1976",
+        "lokalId": "bd490542-0c37-49e8-a362-aa0b35be873e",
+        "navnerom": "https://data.geonorge.no/sosi/befolkning",
+        "versjonId": 20210801,
+        "datauttaksdato": "2026-01-07T14:34:08",
+        "målemetode": 99,
+        "barnehagenavn": "Grashoppa barnehage",
+        "iDrift": true,
+        "barnehagetype": "OrdinærBarnehage",
+        "organisasjonsnummer": 998010942,
+        "høyesteAlder": 5,
+        "lavesteAlder": 1,
+        "antallBarn": 46,
+        "antallAnsatte": 19,
+        "antallBarnPerBarnehagelærer": 13.6,
+        "eierforhold": "Privat",
+        "kostpenger": 450,
+        "åpningstidFra": "07:00",
+        "åpningstidTil": "16:45",
+        "adressenavn": "Sundbykåsa 26",
+        "postnummer": 3961,
+        "poststed": "Stathelle",
+        "kommunenavn": "Bamble",
+        "kommunenummer": 4012,
+        "fylkesnummer": 40,
+        "fylkesnavn": "Telemark",
+        "lenkeSøknadsskjema": "http://www.bamble.kommune.no/"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          9.70502,
+          59.02581
+        ]
+      }
+    }
+  ]
+}
