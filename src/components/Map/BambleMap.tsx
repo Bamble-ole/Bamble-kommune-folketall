@@ -31,6 +31,12 @@ export function BambleMap() {
       center: [9.52, 58.97],
       zoom: 10,
       attributionControl: { compact: true },
+      transformRequest: (url) => {
+        if (url.startsWith('https://tiles.openfreemap.org/fonts/')) {
+          return { url: url.replace('https://tiles.openfreemap.org/fonts/', 'https://fonts.openmaptiles.org/') };
+        }
+        return { url };
+      },
     });
 
     map.current.addControl(new maplibregl.NavigationControl(), 'top-right');

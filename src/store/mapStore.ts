@@ -32,7 +32,7 @@ interface MapStore {
   showSchools:      boolean;
   showKindergartens: boolean;
   showAreaNames:    boolean;
-  sidebarTab:       'charts' | 'schools' | 'dashboard';
+  sidebarTab:       'charts' | 'dashboard' | 'okonomi' | 'tjenester' | 'naering';
 
   // Actions
   setAllYearData:      (data: Record<number, GrunnkretsFeatureCollection>) => void;
@@ -47,7 +47,7 @@ interface MapStore {
   toggleSchools:       () => void;
   toggleKindergartens: () => void;
   toggleAreaNames:     () => void;
-  setSidebarTab:       (tab: 'charts' | 'schools' | 'dashboard') => void;
+  setSidebarTab:       (tab: 'charts' | 'dashboard' | 'okonomi' | 'tjenester' | 'naering') => void;
 }
 
 export const useMapStore = create<MapStore>((set) => ({
@@ -81,7 +81,7 @@ export const useMapStore = create<MapStore>((set) => ({
   setCatchmentAnalysis:(catchmentAnalysis)=> set({ catchmentAnalysis }),
 
   setSelectedArea: (selectedArea) =>
-    set({ selectedArea, sidebarTab: selectedArea ? 'charts' : 'schools' }),
+    set({ selectedArea, sidebarTab: selectedArea ? 'charts' : 'dashboard' }),
 
   setCompareArea: (compareArea) =>
     set({ compareArea, compareMode: false }),

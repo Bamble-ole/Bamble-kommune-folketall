@@ -1,10 +1,12 @@
 import { useMapStore, BASE_YEAR } from '../../store/mapStore';
 import { AgeDistributionChart } from '../Charts/AgeDistributionChart';
 import { YearComparisonChart } from '../Charts/YearComparisonChart';
-import { SchoolCapacityChart } from '../Charts/SchoolCapacityChart';
 import { ForecastChart } from '../Charts/ForecastChart';
 import { StatusDashboard } from './StatusDashboard';
 import { ComparisonView } from './ComparisonView';
+import { OkonomiPanel } from './OkonomiPanel';
+import { TjenesterPanel } from './TjenesterPanel';
+import { NaeringsPanel } from './NaeringsPanel';
 
 export function AreaSidebar() {
   const {
@@ -23,9 +25,11 @@ export function AreaSidebar() {
       )?.properties ?? selectedArea.properties)
     : undefined;
 
-  const isChartsActive  = sidebarTab === 'charts';
-  const isSchoolsActive = sidebarTab === 'schools';
-  const isDashActive    = sidebarTab === 'dashboard';
+  const isChartsActive    = sidebarTab === 'charts';
+  const isDashActive      = sidebarTab === 'dashboard';
+  const isOkonomiActive   = sidebarTab === 'okonomi';
+  const isTjenesterActive = sidebarTab === 'tjenester';
+  const isNaeringActive   = sidebarTab === 'naering';
 
   return (
     <aside className="flex flex-col bg-white border-l border-gray-200 shadow-xl overflow-hidden h-full">
@@ -34,6 +38,16 @@ export function AreaSidebar() {
 
       {/* Tab bar */}
       <div className="flex border-b border-gray-200 bg-gray-50 flex-shrink-0">
+        <button
+          onClick={() => setSidebarTab('dashboard')}
+          className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
+            isDashActive
+              ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          Bamble
+        </button>
         <button
           onClick={() => { if (selectedArea) setSidebarTab('charts'); }}
           disabled={!selectedArea}
@@ -48,33 +62,47 @@ export function AreaSidebar() {
           Grunnkrets
         </button>
         <button
-          onClick={() => setSidebarTab('schools')}
+          onClick={() => setSidebarTab('okonomi')}
           className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
-            isSchoolsActive
+            isOkonomiActive
               ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
               : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          Skolekapasitet
+          Økonomi
         </button>
         <button
-          onClick={() => setSidebarTab('dashboard')}
+          onClick={() => setSidebarTab('tjenester')}
           className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
-            isDashActive
+            isTjenesterActive
               ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
               : 'text-gray-500 hover:text-gray-700'
           }`}
         >
-          Bamble
+          Tjenester
+        </button>
+        <button
+          onClick={() => setSidebarTab('naering')}
+          className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
+            isNaeringActive
+              ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
+              : 'text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          Næring
         </button>
       </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-4 space-y-5">
-        {isDashActive ? (
+        {isNaeringActive ? (
+          <NaeringsPanel />
+        ) : isTjenesterActive ? (
+          <TjenesterPanel />
+        ) : isOkonomiActive ? (
+          <OkonomiPanel />
+        ) : isDashActive ? (
           <StatusDashboard />
-        ) : isSchoolsActive ? (
-          <SchoolCapacityChart />
         ) : (
           isChartsActive && selectedArea && p && (
             <>
@@ -110,7 +138,6 @@ export function AreaSidebar() {
                   </button>
                   <button
                     onClick={() => {
-                      // setSelectedArea switches sidebarTab to 'schools'
                       setSelectedArea(null);
                       // setCompareArea resets compareMode; if compareMode is on
                       // but no compareArea set yet, toggle it off manually
