@@ -32,7 +32,7 @@ interface MapStore {
   showSchools:      boolean;
   showKindergartens: boolean;
   showAreaNames:    boolean;
-  sidebarTab:       'charts' | 'dashboard' | 'okonomi' | 'tjenester' | 'naering';
+  sidebarTab:       'charts' | 'dashboard' | 'okonomi' | 'tjenester' | 'naering' | 'framskriving' | 'utdanning' | 'pendling';
 
   // Actions
   setAllYearData:      (data: Record<number, GrunnkretsFeatureCollection>) => void;
@@ -47,7 +47,7 @@ interface MapStore {
   toggleSchools:       () => void;
   toggleKindergartens: () => void;
   toggleAreaNames:     () => void;
-  setSidebarTab:       (tab: 'charts' | 'dashboard' | 'okonomi' | 'tjenester' | 'naering') => void;
+  setSidebarTab:       (tab: 'charts' | 'dashboard' | 'okonomi' | 'tjenester' | 'naering' | 'framskriving' | 'utdanning' | 'pendling') => void;
 }
 
 export const useMapStore = create<MapStore>((set) => ({

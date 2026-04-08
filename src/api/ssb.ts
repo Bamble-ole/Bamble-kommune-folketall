@@ -338,3 +338,135 @@ export async function hentMedianinntektTidsserie(
 
   return [...normaliser(pre), ...normaliser(mid), ...normaliser(ny)];
 }
+
+// ─── POST-henter for tabeller som krever det (f.eks. pendling med wildcard) ───
+
+async function ssbPost(
+  tabellId: string,
+  selection: Array<{ variableCode: string; valueCodes: string[] }>,
+): Promise<SsbRaadata> {
+  const url = `${SSB_BASE}/${tabellId}/data?outputFormat=json-stat2`;
+  const res = await fetch(url, {
+    method:  'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body:    JSON.stringify({ selection }),
+  });
+  if (!res.ok) throw new Error(`SSB tabell ${tabellId}: ${res.status} ${res.statusText}`);
+  return res.json();
+}
+
+// ─── Befolkningsframskriving (tabell 14288, MMMM-alternativet) ────────────────
+// Kun kode '4012' finnes — tabellen bruker ikke historiske kommunekoder.
+// Ingen "i alt"-alder: alle 106 alderskoder summeres klient-side.
+// ContentsCode=Personer → MMMM (middels nasjonal vekst)
+
+const ALLE_ALDER_KODER = [
+  ...Array.from({ length: 105 }, (_, i) => String(i).padStart(3, '0')), // 000–104
+  '105%2B', // 105+ URL-enkodert
+];
+
+export async function hentBefolkningsframskriving(
+  aar = ['2024', '2025', '2026', '2027', '2028', '2029', '2030',
+         '2032', '2034', '2036', '2038', '2040', '2045', '2050'],
+): Promise<{ aar: string; befolkning: number }[]> {
+  const data = await ssbGet('14288', {
+    Region:       ['4012'],
+    Kjonn:        ['1', '2'],
+    Alder:        ALLE_ALDER_KODER,
+    ContentsCode: ['Personer'], // MMMM
+    Tid:          aar,
+  });
+  const rader = parseSsb(data);
+
+  // Summer alle alder × kjønn per år
+  const summer: Record<string, number> = {};
+  for (const r of rader) {
+    if (r.verdi == null) continue;
+    const t = String(r.Tid);
+    summer[t] = (summer[t] ?? 0) + (r.verdi as number);
+  }
+  return aar.map(a => ({ aar: a, befolkning: summer[a] ?? 0 }))
+            .filter(r => r.befolkning > 0);
+}
+
+// ─── Utdanningsnivå (tabell 09429) ───────────────────────────────────────────
+// Region=0814 gir komplett tidsserie 2000–2024 (eneste kode med ubrutt serie).
+// Nivaa-koder: 01=Grunnskole, 02a=Videregående, 03a=Uni kort, 04a=Uni lang
+// ContentsCode=PersonerProsent → prosentandel
+
+export async function hentUtdanningsnivaa(
+  aar = ['2010', '2015', '2020', '2021', '2022', '2023', '2024'],
+): Promise<SsbRad[]> {
+  const data = await ssbGet('09429', {
+    Region:       ['0814'], // Bamble — eneste kode med komplett serie
+    Nivaa:        ['01', '02a', '03a', '04a'],
+    Kjonn:        ['0'], // Begge kjønn
+    ContentsCode: ['PersonerProsent'],
+    Tid:          aar,
+  });
+  return parseSsb(data).filter(r => r.verdi !== null);
+}
+
+// ─── Pendling (tabell 03321) ──────────────────────────────────────────────────
+// Krever POST med wildcard '*' — GET-URL blir for lang med 853 kommuner.
+// Historiske koder: 0814 (t.o.m. 2019), 3813 (2020–2023), 4012 (2024+)
+// Returnerer: selvpendling, innpendling, utpendling per år
+
+export interface PendlingRad {
+  aar:            string;
+  selvpendling:   number; // bor og jobber i Bamble
+  innpendling:    number; // jobber i Bamble, bor utenfor
+  utpendling:     number; // bor i Bamble, jobber utenfor
+}
+
+async function hentPendlingPeriode(
+  bambleKode: string,
+  aar: string[],
+): Promise<PendlingRad[]> {
+  // Hent alle som jobber i Bamble (innpendling + selvpendling)
+  const innData = await ssbPost('03321', [
+    { variableCode: 'ArbstedKomm', valueCodes: [bambleKode] },
+    { variableCode: 'Bokommuen',   valueCodes: ['*'] },
+    { variableCode: 'ContentsCode', valueCodes: ['Sysselsatte'] },
+    { variableCode: 'Tid',         valueCodes: aar },
+  ]);
+
+  // Hent alle som bor i Bamble (utpendling + selvpendling)
+  const utData = await ssbPost('03321', [
+    { variableCode: 'ArbstedKomm', valueCodes: ['*'] },
+    { variableCode: 'Bokommuen',   valueCodes: [bambleKode] },
+    { variableCode: 'ContentsCode', valueCodes: ['Sysselsatte'] },
+    { variableCode: 'Tid',         valueCodes: aar },
+  ]);
+
+  const innRader = parseSsb(innData);
+  const utRader  = parseSsb(utData);
+
+  return aar.map(a => {
+    const innTotal = innRader
+      .filter(r => r.Tid === a && r.verdi != null)
+      .reduce((s, r) => s + (r.verdi as number), 0);
+    const utTotal = utRader
+      .filter(r => r.Tid === a && r.verdi != null)
+      .reduce((s, r) => s + (r.verdi as number), 0);
+    const selvp = innRader
+      .find(r => r.Tid === a && r.Bokommuen === bambleKode)
+      ?.verdi as number ?? 0;
+
+    return {
+      aar:          a,
+      selvpendling: selvp,
+      innpendling:  innTotal - selvp,
+      utpendling:   utTotal  - selvp,
+    };
+  }).filter(r => r.selvpendling + r.innpendling + r.utpendling > 0);
+}
+
+export async function hentPendling(): Promise<PendlingRad[]> {
+  const [pre, mid, ny] = await Promise.all([
+    hentPendlingPeriode('0814', ['2015', '2016', '2017', '2018', '2019']),
+    hentPendlingPeriode('3813', ['2020', '2021', '2022', '2023']),
+    hentPendlingPeriode('4012', ['2024']),
+  ]);
+  return [...pre, ...mid, ...ny];
+}

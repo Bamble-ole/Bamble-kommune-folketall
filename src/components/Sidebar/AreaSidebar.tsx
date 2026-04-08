@@ -7,6 +7,9 @@ import { ComparisonView } from './ComparisonView';
 import { OkonomiPanel } from './OkonomiPanel';
 import { TjenesterPanel } from './TjenesterPanel';
 import { NaeringsPanel } from './NaeringsPanel';
+import { FramskrivingPanel } from './FramskrivingPanel';
+import { UtdanningPanel } from './UtdanningPanel';
+import { PendlingPanel } from './PendlingPanel';
 
 export function AreaSidebar() {
   const {
@@ -25,77 +28,87 @@ export function AreaSidebar() {
       )?.properties ?? selectedArea.properties)
     : undefined;
 
-  const isChartsActive    = sidebarTab === 'charts';
-  const isDashActive      = sidebarTab === 'dashboard';
-  const isOkonomiActive   = sidebarTab === 'okonomi';
-  const isTjenesterActive = sidebarTab === 'tjenester';
-  const isNaeringActive   = sidebarTab === 'naering';
+  const isChartsActive      = sidebarTab === 'charts';
+  const isDashActive        = sidebarTab === 'dashboard';
+  const isOkonomiActive     = sidebarTab === 'okonomi';
+  const isTjenesterActive   = sidebarTab === 'tjenester';
+  const isNaeringActive     = sidebarTab === 'naering';
+  const isFramskrivingActive = sidebarTab === 'framskriving';
+  const isUtdanningActive   = sidebarTab === 'utdanning';
+  const isPendlingActive    = sidebarTab === 'pendling';
 
   return (
     <aside className="flex flex-col bg-white border-l border-gray-200 shadow-xl overflow-hidden h-full">
       {/* Accent stripe */}
       <div className="h-1 bg-gradient-to-r from-blue-600 to-blue-400 flex-shrink-0" />
 
-      {/* Tab bar */}
-      <div className="flex border-b border-gray-200 bg-gray-50 flex-shrink-0">
-        <button
-          onClick={() => setSidebarTab('dashboard')}
-          className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
-            isDashActive
-              ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
-              : 'text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          Bamble
-        </button>
-        <button
-          onClick={() => { if (selectedArea) setSidebarTab('charts'); }}
-          disabled={!selectedArea}
-          className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
-            isChartsActive
-              ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
-              : selectedArea
-                ? 'text-gray-500 hover:text-gray-700'
-                : 'text-gray-300 cursor-not-allowed'
-          }`}
-        >
-          Grunnkrets
-        </button>
-        <button
-          onClick={() => setSidebarTab('okonomi')}
-          className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
-            isOkonomiActive
-              ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
-              : 'text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          Økonomi
-        </button>
-        <button
-          onClick={() => setSidebarTab('tjenester')}
-          className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
-            isTjenesterActive
-              ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
-              : 'text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          Tjenester
-        </button>
-        <button
-          onClick={() => setSidebarTab('naering')}
-          className={`flex-1 py-2.5 text-xs font-semibold tracking-wide transition-colors ${
-            isNaeringActive
-              ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
-              : 'text-gray-500 hover:text-gray-700'
-          }`}
-        >
-          Næring
-        </button>
+      {/* Tab bar — to rader */}
+      <div className="border-b border-gray-200 bg-gray-50 flex-shrink-0">
+        <div className="flex border-b border-gray-100">
+          {(
+            [
+              { id: 'dashboard',    label: 'Bamble',      guard: false },
+              { id: 'charts',       label: 'Grunnkrets',  guard: true  },
+              { id: 'okonomi',      label: 'Økonomi',     guard: false },
+              { id: 'tjenester',    label: 'Tjenester',   guard: false },
+            ] as const
+          ).map(({ id, label, guard }) => {
+            const active = sidebarTab === id;
+            const disabled = guard && !selectedArea;
+            return (
+              <button
+                key={id}
+                onClick={() => { if (!disabled) setSidebarTab(id as never); }}
+                disabled={disabled}
+                className={`flex-1 py-2 text-xs font-semibold tracking-wide transition-colors ${
+                  active
+                    ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
+                    : disabled
+                      ? 'text-gray-300 cursor-not-allowed'
+                      : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
+        <div className="flex">
+          {(
+            [
+              { id: 'naering',      label: 'Næring'      },
+              { id: 'framskriving', label: 'Framskriving' },
+              { id: 'utdanning',    label: 'Utdanning'   },
+              { id: 'pendling',     label: 'Pendling'    },
+            ] as const
+          ).map(({ id, label }) => {
+            const active = sidebarTab === id;
+            return (
+              <button
+                key={id}
+                onClick={() => setSidebarTab(id as never)}
+                className={`flex-1 py-2 text-xs font-semibold tracking-wide transition-colors ${
+                  active
+                    ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
+                    : 'text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                {label}
+              </button>
+            );
+          })}
+        </div>
       </div>
 
       {/* Content */}
       <div className="flex-1 overflow-y-auto p-4 space-y-5">
-        {isNaeringActive ? (
+        {isPendlingActive ? (
+          <PendlingPanel />
+        ) : isUtdanningActive ? (
+          <UtdanningPanel />
+        ) : isFramskrivingActive ? (
+          <FramskrivingPanel />
+        ) : isNaeringActive ? (
           <NaeringsPanel />
         ) : isTjenesterActive ? (
           <TjenesterPanel />
