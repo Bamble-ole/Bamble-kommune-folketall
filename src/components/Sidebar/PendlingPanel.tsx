@@ -25,7 +25,7 @@ function Feil({ melding }: { melding: string }) {
 }
 
 export function PendlingPanel() {
-  const { data, laster, feil } = useSSB(hentPendling, 'pendling');
+  const { data, laster, feil } = useSSB(hentPendling, 'pendling-2025');
 
   if (laster) return <Skeleton />;
   if (feil)   return <Feil melding={feil} />;

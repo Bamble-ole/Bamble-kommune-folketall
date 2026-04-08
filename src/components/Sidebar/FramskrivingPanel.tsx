@@ -75,7 +75,7 @@ export function FramskrivingPanel() {
       {/* Linjediagram */}
       <div className="bg-gray-50 rounded-xl p-3">
         <p className="text-xs font-semibold text-gray-600 mb-2">
-          Forventet befolkning 2024–2050 (MMMM-alternativet)
+          Forventet befolkning {basisaar.aar}–{siste.aar} (MMMM-alternativet)
         </p>
         <ResponsiveContainer width="100%" height={200}>
           <LineChart data={data} margin={{ top: 4, right: 8, left: -10, bottom: 0 }}>
@@ -83,8 +83,9 @@ export function FramskrivingPanel() {
             <XAxis dataKey="aar" tick={{ fontSize: 9 }} interval={3} />
             <YAxis
               tick={{ fontSize: 10 }}
-              tickFormatter={v => `${Math.round((v as number) / 1000)}k`}
-              domain={['auto', 'auto']}
+              tickFormatter={v => (v as number).toLocaleString('nb-NO')}
+              width={52}
+              domain={['dataMin - 100', 'dataMax + 100']}
             />
             <Tooltip
               formatter={(val: unknown) => [

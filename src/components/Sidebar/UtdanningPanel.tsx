@@ -9,8 +9,8 @@ import { hentUtdanningsnivaa } from '../../api/ssb';
 const NIVAA_NAVN: Record<string, string> = {
   '01':  'Grunnskole',
   '02a': 'Videregående',
-  '03a': 'Uni (kort)',
-  '04a': 'Uni (lang)',
+  '03a': 'Uni, 1–4 år',
+  '04a': 'Uni, 5+ år',
 };
 
 const NIVAA_FARGER: Record<string, string> = {
@@ -20,7 +20,7 @@ const NIVAA_FARGER: Record<string, string> = {
   '04a': '#1d4ed8',
 };
 
-const AAR = ['2010', '2015', '2020', '2021', '2022', '2023', '2024'];
+const AAR = ['2010', '2015', '2019', '2020', '2021', '2022', '2023', '2024'];
 
 function Skeleton() {
   return (
@@ -41,13 +41,15 @@ function Feil({ melding }: { melding: string }) {
 }
 
 export function UtdanningPanel() {
-  const { data, laster, feil } = useSSB(hentUtdanningsnivaa, 'utdanning');
+  const { data, laster, feil } = useSSB(hentUtdanningsnivaa, 'utdanning-v2');
 
   if (laster) return <Skeleton />;
   if (feil)   return <Feil melding={feil} />;
 
-  // Nøkkeltall: siste år
-  const sisteAar = AAR[AAR.length - 1];
+  // Finn siste og første år med faktiske data
+  const tilgjengeligeAar = [...new Set((data ?? []).map(r => String(r.Tid)))].sort();
+  const sisteAar  = tilgjengeligeAar.at(-1) ?? AAR.at(-1)!;
+  const forsteAar = tilgjengeligeAar[0] ?? AAR[0];
   const sisteData = (data ?? []).filter(r => r.Tid === sisteAar);
 
   const hoeyere = sisteData
@@ -88,11 +90,11 @@ export function UtdanningPanel() {
           <p className="text-[10px] text-gray-400">av befolkningen</p>
         </div>
         <div className="bg-gray-50 rounded-lg p-3">
-          <p className="text-xs text-gray-500 mb-0.5">Uni, kort</p>
+          <p className="text-xs text-gray-500 mb-0.5">Uni, 1–4 år</p>
           <p className="text-lg font-bold text-gray-800">{uniKort.toFixed(1)} %</p>
         </div>
         <div className="bg-gray-50 rounded-lg p-3">
-          <p className="text-xs text-gray-500 mb-0.5">Uni, lang</p>
+          <p className="text-xs text-gray-500 mb-0.5">Uni, 5+ år</p>
           <p className="text-lg font-bold text-gray-800">{uniLang.toFixed(1)} %</p>
         </div>
       </div>
@@ -100,7 +102,7 @@ export function UtdanningPanel() {
       {/* Stablede søyler */}
       <div className="bg-gray-50 rounded-xl p-3">
         <p className="text-xs font-semibold text-gray-600 mb-2">
-          Utdanningsnivå fordeling 2010–2024 (%)
+          Utdanningsnivå fordeling {forsteAar}–{sisteAar} (%)
         </p>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={stapelData} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>
@@ -132,7 +134,7 @@ export function UtdanningPanel() {
       {/* Tidsserie høyere utdanning */}
       <div className="bg-gray-50 rounded-xl p-3">
         <p className="text-xs font-semibold text-gray-600 mb-2">
-          Andel med høyere utdanning 2010–2024 (%)
+          Andel med høyere utdanning {forsteAar}–{sisteAar} (%)
         </p>
         <ResponsiveContainer width="100%" height={150}>
           <LineChart data={tidsserieHoeyere} margin={{ top: 4, right: 8, left: -16, bottom: 0 }}>

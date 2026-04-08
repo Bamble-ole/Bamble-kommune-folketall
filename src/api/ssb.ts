@@ -115,7 +115,7 @@ export const BAMBLE_ALLE_KODER = ['0814', '3813', '4012'];
 
 export async function hentDriftsresultat(
   kommuner = [...BAMBLE_ALLE_KODER, 'EAK'],
-  aar = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'],
+  aar = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'],
 ): Promise<SsbRad[]> {
   const data = await ssbGet('12143', {
     KOKkommuneregion0000: kommuner,
@@ -138,7 +138,7 @@ export async function hentLaanegjeld(
     KOKkommuneregion0000: kommuner,
     KOKartkap0000:        ['KG31'],
     ContentsCode:         ['KOSbelopprinnb0000'],
-    Tid:                  ['2024'],
+    Tid:                  ['2025'],
   });
   return parseSsb(data).filter(r => r.verdi !== null);
 }
@@ -152,7 +152,7 @@ export async function hentLaanegjeld(
 
 export async function hentBarnehageNokkel(
   kommuner = Object.keys(KOMMUNER),
-  aar = '2024',
+  aar = '2025',
 ): Promise<SsbRad[]> {
   const data = await ssbGet('13502', {
     KOKkommuneregion0000: kommuner,
@@ -229,7 +229,7 @@ export async function hentOmsorgNokkel(
 
 export async function hentSysselsettingNaering(
   kommunenummer = '4012',
-  aar = '2024',
+  aar = '2025',
 ): Promise<SsbRad[]> {
   const data = await ssbGet('07984', {
     Region:       [kommunenummer],
@@ -394,17 +394,25 @@ export async function hentBefolkningsframskriving(
 // Nivaa-koder: 01=Grunnskole, 02a=Videregående, 03a=Uni kort, 04a=Uni lang
 // ContentsCode=PersonerProsent → prosentandel
 
-export async function hentUtdanningsnivaa(
-  aar = ['2010', '2015', '2020', '2021', '2022', '2023', '2024'],
-): Promise<SsbRad[]> {
-  const data = await ssbGet('09429', {
-    Region:       ['0814'], // Bamble — eneste kode med komplett serie
+export async function hentUtdanningsnivaa(): Promise<SsbRad[]> {
+  const felles = {
     Nivaa:        ['01', '02a', '03a', '04a'],
-    Kjonn:        ['0'], // Begge kjønn
+    Kjonn:        ['0'],
     ContentsCode: ['PersonerProsent'],
-    Tid:          aar,
-  });
-  return parseSsb(data).filter(r => r.verdi !== null);
+  };
+  const [pre, mid, ny] = await Promise.all([
+    ssbGet('09429', { Region: ['0814'], ...felles, Tid: ['2010', '2015', '2016', '2017', '2018', '2019'] }),
+    ssbGet('09429', { Region: ['3813'], ...felles, Tid: ['2020', '2021', '2022', '2023'] }),
+    ssbGet('09429', { Region: ['4012'], ...felles, Tid: ['2024'] }),
+  ]);
+  // Normaliser Region til '4012' så panelet bare trenger å filtrere på én kode
+  const normaliser = (rader: SsbRad[]) =>
+    rader.map(r => ({ ...r, Region: '4012' }));
+  return [
+    ...normaliser(parseSsb(pre).filter(r => r.verdi !== null)),
+    ...normaliser(parseSsb(mid).filter(r => r.verdi !== null)),
+    ...normaliser(parseSsb(ny).filter(r => r.verdi !== null)),
+  ];
 }
 
 // ─── Pendling (tabell 03321) ──────────────────────────────────────────────────
@@ -466,7 +474,7 @@ export async function hentPendling(): Promise<PendlingRad[]> {
   const [pre, mid, ny] = await Promise.all([
     hentPendlingPeriode('0814', ['2015', '2016', '2017', '2018', '2019']),
     hentPendlingPeriode('3813', ['2020', '2021', '2022', '2023']),
-    hentPendlingPeriode('4012', ['2024']),
+    hentPendlingPeriode('4012', ['2024', '2025']),
   ]);
   return [...pre, ...mid, ...ny];
 }

@@ -58,7 +58,7 @@ function Skeleton() {
 }
 
 export function NaeringsPanel() {
-  const syss     = useSSB(hentSysselsettingNaering,    'sysselsetting');
+  const syss     = useSSB(hentSysselsettingNaering,    'sysselsetting-2025');
   const ledighet = useSSB(hentArbeidsledighet,         'ledighet');
   const inntekt  = useSSB(hentMedianinntektTidsserie,  'inntekt-tidsserie');
 

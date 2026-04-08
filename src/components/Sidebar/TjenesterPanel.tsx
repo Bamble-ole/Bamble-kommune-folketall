@@ -182,18 +182,21 @@ function Seksjon({
 // ─── Hovedkomponent ───────────────────────────────────────────────────────────
 
 export function TjenesterPanel() {
-  const barnehage = useSSB(hentBarnehageNokkel, 'barnehage');
-  const skole     = useSSB(hentSkoleNokkel,     'skole');
-  const omsorg    = useSSB(hentOmsorgNokkel,    'omsorg');
+  const barnehage = useSSB(hentBarnehageNokkel, 'barnehage-2025');
+  const skole     = useSSB(hentSkoleNokkel,     'skole-2025');
+  const omsorg    = useSSB(hentOmsorgNokkel,    'omsorg-2025');
 
   if (barnehage.laster || skole.laster || omsorg.laster) return <Skeleton />;
 
   const feil = barnehage.feil ?? skole.feil ?? omsorg.feil;
   if (feil) return <Feil melding={feil} />;
 
+  // Finn år fra data dynamisk
+  const kostraAar = (barnehage.data ?? []).find(r => r.Tid)?.Tid as string ?? '';
+
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-semibold text-gray-700">Tjenester (KOSTRA 2024)</h3>
+      <h3 className="text-sm font-semibold text-gray-700">Tjenester (KOSTRA {kostraAar})</h3>
 
       <Seksjon
         tittel="Barnehage"

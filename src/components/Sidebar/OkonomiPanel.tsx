@@ -5,7 +5,7 @@ import {
 import { useSSB } from '../../hooks/useSSB';
 import { hentDriftsresultat, hentLaanegjeld, KOMMUNER, KOMMUNER_UTEN_LAND, BAMBLE_ALLE_KODER } from '../../api/ssb';
 
-const AAR = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024'];
+const AAR = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];
 
 function MetricKort({
   tittel, verdi, sub, ok,
@@ -44,8 +44,8 @@ function Feil({ melding }: { melding: string }) {
 }
 
 export function OkonomiPanel() {
-  const drift = useSSB(hentDriftsresultat, 'driftsresultat-v2');
-  const gjeld = useSSB(hentLaanegjeld,    'laanegjeld');
+  const drift = useSSB(hentDriftsresultat, 'driftsresultat-2025');
+  const gjeld = useSSB(hentLaanegjeld,    'laanegjeld-2025');
 
   if (drift.laster || gjeld.laster) return <Skeleton />;
   if (drift.feil) return <Feil melding={drift.feil} />;
@@ -58,9 +58,14 @@ export function OkonomiPanel() {
     land:   drift.data!.find(r => r.KOKkommuneregion0000 === 'EAK' && r.Tid === aar)?.verdi ?? null,
   }));
 
-  const sisteBamble = tidsserie.map(r => r.bamble).filter(v => v != null).at(-1) as number;
-  const sisteLand   = tidsserie.map(r => r.land).filter(v => v != null).at(-1) as number;
-  const bambleGjeld = gjeld.data!.find(r => BAMBLE_ALLE_KODER.includes(String(r.KOKkommuneregion0000)))?.verdi as number;
+  const sisteBambleRad = tidsserie.filter(r => r.bamble != null).at(-1);
+  const sisteLandRad   = tidsserie.filter(r => r.land != null).at(-1);
+  const sisteBamble    = sisteBambleRad?.bamble as number;
+  const sisteLand      = sisteLandRad?.land as number;
+  const sisteAar       = sisteBambleRad?.aar ?? AAR.at(-1)!;
+  const bambleGjeld    = gjeld.data!.find(r => BAMBLE_ALLE_KODER.includes(String(r.KOKkommuneregion0000)))?.verdi as number;
+  // Finn år for lånegjeld fra data
+  const gjeldAar = gjeld.data!.find(r => BAMBLE_ALLE_KODER.includes(String(r.KOKkommuneregion0000)))?.Tid as string ?? sisteAar;
 
   // Lånegjeld-søylediagram (alle kommuner utenom "Hele landet")
   const gjeldKommuner = Object.keys(KOMMUNER_UTEN_LAND);
@@ -77,7 +82,7 @@ export function OkonomiPanel() {
       {/* Nøkkeltall-kort */}
       <div className="grid grid-cols-3 gap-2">
         <MetricKort
-          tittel="Driftsresultat 2024"
+          tittel={`Driftsresultat ${sisteAar}`}
           verdi={`${sisteBamble?.toFixed(1)} %`}
           sub={sisteBamble >= 1.75 ? '▲ Over anbefalt' : '▼ Under anbefalt'}
           ok={sisteBamble >= 1.75}
@@ -85,18 +90,18 @@ export function OkonomiPanel() {
         <MetricKort
           tittel="Lånegjeld/innb."
           verdi={`${bambleGjeld?.toLocaleString('nb-NO')} kr`}
-          sub="2024"
+          sub={gjeldAar}
         />
         <MetricKort
           tittel="Landssnitt drift"
           verdi={`${sisteLand?.toFixed(1)} %`}
-          sub="2024"
+          sub={sisteLandRad?.aar ?? sisteAar}
         />
       </div>
 
       {/* Driftsresultat linjediagram */}
       <div className="bg-gray-50 rounded-xl p-3">
-        <p className="text-xs font-semibold text-gray-600 mb-1">Netto driftsresultat 2015–2024 (%)</p>
+        <p className="text-xs font-semibold text-gray-600 mb-1">Netto driftsresultat 2015–{sisteAar} (%)</p>
         <div className="flex gap-4 text-xs text-gray-500 mb-2">
           <span className="flex items-center gap-1">
             <span className="inline-block w-4 h-0.5 bg-blue-500" />Bamble
@@ -120,7 +125,7 @@ export function OkonomiPanel() {
 
       {/* Lånegjeld søylediagram */}
       <div className="bg-gray-50 rounded-xl p-3">
-        <p className="text-xs font-semibold text-gray-600 mb-2">Netto lånegjeld per innbygger 2024</p>
+        <p className="text-xs font-semibold text-gray-600 mb-2">Netto lånegjeld per innbygger {gjeldAar}</p>
         <ResponsiveContainer width="100%" height={150}>
           <BarChart data={gjeldData} layout="vertical" margin={{ top: 0, right: 40, left: 4, bottom: 0 }}>
             <XAxis type="number" tick={{ fontSize: 9 }} tickFormatter={v => `${Math.round((v as number) / 1000)}k`} />
