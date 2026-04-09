@@ -100,7 +100,7 @@ export function PendlingPanel() {
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="aar" tick={{ fontSize: 9 }} interval={1} />
             <YAxis tick={{ fontSize: 10 }} tickFormatter={v => `${Math.round((v as number) / 1000)}k`} />
-            <Tooltip formatter={(val: unknown, name: unknown) => [
+            <Tooltip formatter={(val: unknown, name: string) => [
               `${(val as number).toLocaleString('nb-NO')} pers.`, name,
             ]} />
             <Legend iconType="square" wrapperStyle={{ fontSize: 10 }} />
