@@ -51,19 +51,19 @@ export function FramskrivingPanel() {
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-gray-50 rounded-lg p-3">
           <p className="text-xs text-gray-500 mb-0.5">I dag ({basisaar.aar})</p>
-          <p className="text-lg font-bold text-gray-800">
+          <p className="text-xl font-bold text-gray-800">
             {basisaar.befolkning.toLocaleString('nb-NO')}
           </p>
         </div>
         <div className="bg-gray-50 rounded-lg p-3">
           <p className="text-xs text-gray-500 mb-0.5">Topp ({topp.aar})</p>
-          <p className="text-lg font-bold text-gray-800">
+          <p className="text-xl font-bold text-gray-800">
             {topp.befolkning.toLocaleString('nb-NO')}
           </p>
         </div>
         <div className="bg-gray-50 rounded-lg p-3">
           <p className="text-xs text-gray-500 mb-0.5">2050</p>
-          <p className={`text-lg font-bold ${endring >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+          <p className={`text-xl font-bold ${endring >= 0 ? 'text-green-600' : 'text-red-500'}`}>
             {endring >= 0 ? '+' : ''}{pct} %
           </p>
           <p className="text-[10px] text-gray-400">

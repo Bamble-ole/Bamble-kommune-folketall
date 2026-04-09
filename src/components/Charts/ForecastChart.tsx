@@ -57,7 +57,11 @@ export function ForecastChart({ properties }: Props) {
   }
   historical.sort((a, b) => a.year - b.year);
 
-  if (historical.length < 3) return null;
+  if (historical.length < 3) return (
+    <div className="rounded-lg border border-dashed border-gray-200 flex items-center justify-center h-24 text-xs text-gray-400">
+      Ikke nok historiske data for prognose
+    </div>
+  );
 
   const lastHistoricalYear = historical[historical.length - 1].year;
 
@@ -89,8 +93,8 @@ export function ForecastChart({ properties }: Props) {
         <h3 className="text-sm font-semibold text-gray-700">Befolkningsprognose</h3>
       </div>
       <p className="text-xs text-gray-500 mb-2">Estimert trend til 2035 *</p>
-      <ResponsiveContainer width="100%" height={160}>
-        <ComposedChart data={chartData} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+      <ResponsiveContainer width="100%" height={170}>
+        <ComposedChart data={chartData} margin={{ top: 4, right: 4, left: -12, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
           <XAxis
             dataKey="year"

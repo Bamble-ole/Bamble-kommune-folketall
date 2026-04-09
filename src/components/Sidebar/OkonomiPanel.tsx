@@ -4,26 +4,10 @@ import {
 } from 'recharts';
 import { useSSB } from '../../hooks/useSSB';
 import { hentDriftsresultat, hentLaanegjeld, KOMMUNER, KOMMUNER_UTEN_LAND, BAMBLE_ALLE_KODER } from '../../api/ssb';
+import { KpiCard } from '../Shared/KpiCard';
 
 const AAR = ['2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025'];
 
-function MetricKort({
-  tittel, verdi, sub, ok,
-}: {
-  tittel: string; verdi: string; sub?: string; ok?: boolean;
-}) {
-  return (
-    <div className="bg-gray-50 rounded-lg p-3">
-      <p className="text-xs text-gray-500 mb-0.5">{tittel}</p>
-      <p className="text-xl font-bold text-gray-800">{verdi}</p>
-      {sub && (
-        <p className={`text-xs mt-0.5 ${ok === true ? 'text-green-600' : ok === false ? 'text-red-500' : 'text-gray-400'}`}>
-          {sub}
-        </p>
-      )}
-    </div>
-  );
-}
 
 function Skeleton() {
   return (
@@ -81,21 +65,21 @@ export function OkonomiPanel() {
 
       {/* Nøkkeltall-kort */}
       <div className="grid grid-cols-3 gap-2">
-        <MetricKort
-          tittel={`Driftsresultat ${sisteAar}`}
-          verdi={`${sisteBamble?.toFixed(1)} %`}
-          sub={sisteBamble >= 1.75 ? '▲ Over anbefalt' : '▼ Under anbefalt'}
-          ok={sisteBamble >= 1.75}
+        <KpiCard
+          label={`Driftsresultat ${sisteAar}`}
+          value={`${sisteBamble?.toFixed(1)} %`}
+          subLabel={sisteBamble >= 1.75 ? '▲ Over anbefalt' : '▼ Under anbefalt'}
+          subLabelColor={sisteBamble >= 1.75 ? 'success' : 'danger'}
         />
-        <MetricKort
-          tittel="Lånegjeld/innb."
-          verdi={`${bambleGjeld?.toLocaleString('nb-NO')} kr`}
-          sub={gjeldAar}
+        <KpiCard
+          label="Lånegjeld/innb."
+          value={`${bambleGjeld?.toLocaleString('nb-NO')} kr`}
+          subLabel={gjeldAar}
         />
-        <MetricKort
-          tittel="Landssnitt drift"
-          verdi={`${sisteLand?.toFixed(1)} %`}
-          sub={sisteLandRad?.aar ?? sisteAar}
+        <KpiCard
+          label="Landssnitt drift"
+          value={`${sisteLand?.toFixed(1)} %`}
+          subLabel={sisteLandRad?.aar ?? sisteAar}
         />
       </div>
 
@@ -111,7 +95,7 @@ export function OkonomiPanel() {
           </span>
         </div>
         <ResponsiveContainer width="100%" height={180}>
-          <LineChart data={tidsserie} margin={{ top: 4, right: 8, left: -20, bottom: 0 }}>
+          <LineChart data={tidsserie} margin={{ top: 4, right: 8, left: -12, bottom: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
             <XAxis dataKey="aar" tick={{ fontSize: 9 }} interval={1} />
             <YAxis tick={{ fontSize: 10 }} tickFormatter={v => `${v}%`} />

@@ -105,10 +105,11 @@ export function BambleMap() {
       const p = e.features[0].properties as Record<string, unknown>;
       const geo = e.features[0].geometry as unknown as { coordinates: [number, number] };
       popup.current!.setLngLat(geo.coordinates).setHTML(
-        `<strong>${p.skolenavn}</strong><br/>
-        Elever: <b>${p.antallElever}</b>&nbsp;|&nbsp;Ansatte: ${p.antallAnsatte}<br/>
-        Trinn ${p['trinn_Trinn_lavesteTrinn']}${String.fromCharCode(8211)}${p['trinn_Trinn_høyesteTrinn']}<br/>
-        <small>${p['besøksadresse_Besøksadresse_adressenavn']}, ${p['besøksadresse_Besøksadresse_postnummer']} ${p['besøksadresse_Besøksadresse_poststed']}</small>`
+        `<div class="popup-title">${p.skolenavn}</div>
+        <div class="popup-row"><span>Elever</span><strong>${p.antallElever}</strong></div>
+        <div class="popup-row"><span>Ansatte</span><strong>${p.antallAnsatte}</strong></div>
+        <div class="popup-row"><span>Trinn</span><strong>${p['trinn_Trinn_lavesteTrinn']}–${p['trinn_Trinn_høyesteTrinn']}</strong></div>
+        <div class="popup-section popup-address">${p['besøksadresse_Besøksadresse_adressenavn']}, ${p['besøksadresse_Besøksadresse_postnummer']} ${p['besøksadresse_Besøksadresse_poststed']}</div>`
       ).addTo(m);
     });
 
@@ -117,11 +118,12 @@ export function BambleMap() {
       const p = e.features[0].properties as Record<string, unknown>;
       const geo = e.features[0].geometry as unknown as { coordinates: [number, number] };
       popup.current!.setLngLat(geo.coordinates).setHTML(
-        `<strong>${p.barnehagenavn}</strong><br/>
-        Barn: <b>${p.antallBarn}</b>&nbsp;|&nbsp;Ansatte: ${p.antallAnsatte}<br/>
-        Alder: ${p.lavesteAlder}${String.fromCharCode(8211)}${p['høyesteAlder']} år<br/>
-        Åpningstid: ${p['åpningstidFra']} ${String.fromCharCode(8211)} ${p['åpningstidTil']}<br/>
-        <small>${p.adressenavn}, ${p.postnummer} ${p.poststed}</small>`
+        `<div class="popup-title">${p.barnehagenavn}</div>
+        <div class="popup-row"><span>Barn</span><strong>${p.antallBarn}</strong></div>
+        <div class="popup-row"><span>Ansatte</span><strong>${p.antallAnsatte}</strong></div>
+        <div class="popup-row"><span>Alder</span><strong>${p.lavesteAlder}–${p['høyesteAlder']} år</strong></div>
+        <div class="popup-row"><span>Åpningstid</span><strong>${p['åpningstidFra']}–${p['åpningstidTil']}</strong></div>
+        <div class="popup-section popup-address">${p.adressenavn}, ${p.postnummer} ${p.poststed}</div>`
       ).addTo(m);
     });
 
@@ -165,7 +167,7 @@ export function BambleMap() {
           id: 'grunnkretser-hover', type: 'fill', source: 'grunnkretser',
           paint: {
             'fill-color': '#000000',
-            'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.12, 0],
+            'fill-opacity': ['case', ['boolean', ['feature-state', 'hover'], false], 0.25, 0],
           },
         });
       }

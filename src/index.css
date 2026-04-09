@@ -31,3 +31,36 @@ html, body, #root {
 .maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
   border-top-color: white;
 }
+
+.maplibregl-popup-content .popup-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.maplibregl-popup-content .popup-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #6b7280;
+  padding: 2px 0;
+}
+
+.maplibregl-popup-content .popup-row strong {
+  color: #111827;
+  font-weight: 600;
+}
+
+.maplibregl-popup-content .popup-section {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid #f3f4f6;
+}
+
+.maplibregl-popup-content .popup-address {
+  font-size: 11px;
+  color: #9ca3af;
+}

@@ -22,9 +22,9 @@ export function YearComparisonChart({ properties }: Props) {
 
   if (!propsBase || activeYear === BASE_YEAR) {
     return (
-      <p className="text-sm text-gray-500 italic">
-        Ingen sammenligningsdata tilgjengelig for dette området.
-      </p>
+      <div className="rounded-lg border border-dashed border-gray-200 flex items-center justify-center h-20 text-xs text-gray-400">
+        Ingen sammenligningsdata — velg et annet år i glideren
+      </div>
     );
   }
 
@@ -45,9 +45,9 @@ export function YearComparisonChart({ properties }: Props) {
         </span>
       </div>
       <ResponsiveContainer width="100%" height={200}>
-        <ComposedChart data={data} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+        <ComposedChart data={data} margin={{ top: 4, right: 4, left: -12, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-          <XAxis dataKey="name" tick={{ fontSize: 9 }} interval={0} angle={-45} textAnchor="end" height={40} />
+          <XAxis dataKey="name" tick={{ fontSize: 9 }} interval={0} angle={-35} textAnchor="end" height={44} />
           <YAxis yAxisId="left" tick={{ fontSize: 10 }} />
           <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 10 }} />
           <Tooltip

@@ -67,21 +67,21 @@ export function PendlingPanel() {
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-gray-50 rounded-lg p-3">
           <p className="text-xs text-gray-500 mb-0.5">Innpendling ({siste.aar})</p>
-          <p className="text-lg font-bold text-gray-800">
+          <p className="text-xl font-bold text-gray-800">
             {siste.innpendling.toLocaleString('nb-NO')}
           </p>
           <p className="text-[10px] text-gray-400">pers. utenfra</p>
         </div>
         <div className="bg-gray-50 rounded-lg p-3">
           <p className="text-xs text-gray-500 mb-0.5">Utpendling</p>
-          <p className="text-lg font-bold text-gray-800">
+          <p className="text-xl font-bold text-gray-800">
             {siste.utpendling.toLocaleString('nb-NO')}
           </p>
           <p className="text-[10px] text-gray-400">{utpendlingsandel} % av bosatte</p>
         </div>
         <div className="bg-gray-50 rounded-lg p-3">
           <p className="text-xs text-gray-500 mb-0.5">Netto</p>
-          <p className={`text-lg font-bold ${nettoPendling >= 0 ? 'text-green-600' : 'text-red-500'}`}>
+          <p className={`text-xl font-bold ${nettoPendling >= 0 ? 'text-green-600' : 'text-red-500'}`}>
             {nettoPendling >= 0 ? '+' : ''}{nettoPendling.toLocaleString('nb-NO')}
           </p>
           <p className="text-[10px] text-gray-400">

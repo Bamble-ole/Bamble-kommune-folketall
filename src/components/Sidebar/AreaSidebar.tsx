@@ -1,4 +1,5 @@
 import { useMapStore, BASE_YEAR } from '../../store/mapStore';
+import { KpiCard } from '../Shared/KpiCard';
 import { AgeDistributionChart } from '../Charts/AgeDistributionChart';
 import { YearComparisonChart } from '../Charts/YearComparisonChart';
 import { ForecastChart } from '../Charts/ForecastChart';
@@ -42,6 +43,38 @@ export function AreaSidebar() {
       {/* Accent stripe */}
       <div className="h-1 bg-gradient-to-r from-blue-600 to-blue-400 flex-shrink-0" />
 
+      {/* Kontekstheader */}
+      <div className="flex items-center justify-between px-4 py-2 border-b border-gray-100 bg-white flex-shrink-0">
+        <div className="min-w-0">
+          {selectedArea ? (
+            <div className="flex items-center gap-1.5 text-xs text-gray-500">
+              <span>Bamble</span>
+              <span className="text-gray-300">›</span>
+              <span className="font-semibold text-gray-800 truncate">{selectedArea.grunnkretsnavn}</span>
+            </div>
+          ) : (
+            <p className="text-xs font-semibold text-gray-700">Bamble kommune</p>
+          )}
+        </div>
+        {selectedArea && (
+          <button
+            type="button"
+            aria-label="Lukk grunnkrets"
+            onClick={() => {
+              setSelectedArea(null);
+              if (compareMode) {
+                compareArea ? setCompareArea(null) : toggleCompareMode();
+              }
+            }}
+            className="ml-2 flex-shrink-0 w-7 h-7 flex items-center justify-center rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+          >
+            <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor">
+              <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.75.75 0 1 1 1.06 1.06L9.06 8l3.22 3.22a.75.75 0 1 1-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 0 1-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06z"/>
+            </svg>
+          </button>
+        )}
+      </div>
+
       {/* Tab bar — to rader */}
       <div className="border-b border-gray-200 bg-gray-50 flex-shrink-0">
         <div className="flex border-b border-gray-100">
@@ -60,6 +93,7 @@ export function AreaSidebar() {
                 key={id}
                 onClick={() => { if (!disabled) setSidebarTab(id as never); }}
                 disabled={disabled}
+                title={disabled ? 'Velg en grunnkrets i kartet for å se denne visningen' : undefined}
                 className={`flex-1 py-2 text-xs font-semibold tracking-wide transition-colors ${
                   active
                     ? 'text-blue-700 border-b-2 border-blue-600 bg-white'
@@ -119,60 +153,29 @@ export function AreaSidebar() {
         ) : (
           isChartsActive && selectedArea && p && (
             <>
-              {/* Area header */}
-              <div className="flex justify-between items-start">
-                <div>
-                  <h2 className="text-base font-bold text-gray-800">{p.grunnkretsnavn}</h2>
-                  <p className="text-xs text-gray-500 mt-0.5">Grunnkrets · Bamble kommune</p>
-                </div>
-                <div className="flex items-center gap-2">
-                  {/* Compare button */}
-                  <button
-                    onClick={() => {
-                      if (compareMode) {
-                        // setCompareArea already resets compareMode to false;
-                        // if no compareArea was selected yet, toggle manually.
-                        if (compareArea) {
-                          setCompareArea(null);
-                        } else {
-                          toggleCompareMode();
-                        }
-                      } else {
-                        toggleCompareMode();
-                      }
-                    }}
-                    className={`text-xs px-2 py-1 rounded border transition-colors ${
-                      compareMode
-                        ? 'bg-orange-50 border-orange-300 text-orange-700 hover:bg-orange-100'
-                        : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100'
-                    }`}
-                  >
-                    {compareMode ? 'Avbryt' : 'Sammenlign ▼'}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setSelectedArea(null);
-                      // setCompareArea resets compareMode; if compareMode is on
-                      // but no compareArea set yet, toggle it off manually
-                      if (compareMode) {
-                        if (compareArea) {
-                          setCompareArea(null);
-                        } else {
-                          toggleCompareMode();
-                        }
-                      }
-                    }}
-                    className="text-gray-400 hover:text-gray-600 text-lg leading-none p-0.5"
-                    title="Lukk"
-                  >
-                    ×
-                  </button>
-                </div>
+              {/* Compare button */}
+              <div className="flex justify-end">
+                <button
+                  onClick={() => {
+                    if (compareMode) {
+                      compareArea ? setCompareArea(null) : toggleCompareMode();
+                    } else {
+                      toggleCompareMode();
+                    }
+                  }}
+                  className={`text-xs px-3 py-1.5 rounded-full border font-medium transition-colors ${
+                    compareMode
+                      ? 'bg-orange-50 border-orange-300 text-orange-700 hover:bg-orange-100'
+                      : 'bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100'
+                  }`}
+                >
+                  {compareMode ? 'Avbryt sammenligning' : '⊕ Sammenlign'}
+                </button>
               </div>
 
               {/* Compare mode banner when no compareArea yet */}
               {compareMode && !compareArea && (
-                <div className="rounded-lg bg-blue-50 border border-blue-200 px-3 py-2 text-xs text-blue-700 flex items-center gap-2">
+                <div className="rounded-lg bg-blue-50 border border-blue-200 px-3 py-2.5 text-sm text-blue-700 flex items-center gap-2">
                   <span>🗺️</span>
                   <span>Klikk på et område i kartet for å sammenligne</span>
                 </div>
@@ -185,34 +188,30 @@ export function AreaSidebar() {
                 <>
                   {/* Summary stats */}
                   <div className="grid grid-cols-2 gap-2">
-                    <StatCard
+                    <KpiCard
                       label={`Innbyggere ${activeYear}`}
-                      value={p.totalBefolkning.toString()}
-                      sub=""
-                      accent="border-blue-400"
+                      value={p.totalBefolkning.toLocaleString('nb-NO')}
+                      accentColor="border-blue-400"
                     />
-                    <StatCard
+                    <KpiCard
                       label={`Endring ${BASE_YEAR}–${activeYear}`}
-                      value={p.endring != null
-                        ? `${p.endring > 0 ? '+' : ''}${p.endring}`
-                        : '—'}
-                      valueColor={p.endring != null
-                        ? p.endring > 0 ? 'text-green-600' : p.endring < 0 ? 'text-red-600' : 'text-gray-700'
-                        : 'text-gray-400'}
-                      sub="personer"
-                      accent={p.endring == null ? 'border-gray-300' : p.endring >= 0 ? 'border-green-400' : 'border-red-400'}
+                      value={p.endring != null ? `${p.endring > 0 ? '+' : ''}${p.endring}` : '—'}
+                      valueColor={p.endring != null ? (p.endring > 0 ? 'text-green-600' : p.endring < 0 ? 'text-red-600' : 'text-gray-700') : 'text-gray-400'}
+                      trend={p.endring == null ? undefined : p.endring > 0 ? 'up' : p.endring < 0 ? 'down' : 'neutral'}
+                      subLabel="personer"
+                      accentColor={p.endring == null ? 'border-gray-300' : p.endring >= 0 ? 'border-green-400' : 'border-red-400'}
                     />
-                    <StatCard
+                    <KpiCard
                       label="Andel eldre (60+)"
                       value={`${(p.andelEldre * 100).toFixed(1)}%`}
-                      sub={`${p.antallEldre} pers.`}
-                      accent="border-orange-400"
+                      subLabel={`${p.antallEldre} pers.`}
+                      accentColor="border-orange-400"
                     />
-                    <StatCard
+                    <KpiCard
                       label="Andel unge (0–19)"
                       value={`${(p.andelYngre * 100).toFixed(1)}%`}
-                      sub={`${p.antallYngre} pers.`}
-                      accent="border-emerald-400"
+                      subLabel={`${p.antallYngre} pers.`}
+                      accentColor="border-emerald-400"
                     />
                   </div>
 
@@ -231,16 +230,3 @@ export function AreaSidebar() {
   );
 }
 
-function StatCard({
-  label, value, sub = '', valueColor = 'text-gray-800', accent = 'border-blue-400',
-}: {
-  label: string; value: string; sub?: string; valueColor?: string; accent?: string;
-}) {
-  return (
-    <div className={`bg-gray-50 rounded-lg p-3 border-l-4 ${accent}`}>
-      <p className="text-xs text-gray-500 mb-0.5">{label}</p>
-      <p className={`text-xl font-bold ${valueColor}`}>{value}</p>
-      {sub && <p className="text-xs text-gray-400">{sub}</p>}
-    </div>
-  );
-}

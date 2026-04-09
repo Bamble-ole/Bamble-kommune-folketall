@@ -86,7 +86,7 @@ export function UtdanningPanel() {
       <div className="grid grid-cols-3 gap-2">
         <div className="bg-gray-50 rounded-lg p-3">
           <p className="text-xs text-gray-500 mb-0.5">Høyere utd. ({sisteAar})</p>
-          <p className="text-lg font-bold text-gray-800">{hoeyere.toFixed(1)} %</p>
+          <p className="text-xl font-bold text-gray-800">{hoeyere.toFixed(1)} %</p>
           <p className="text-[10px] text-gray-400">av befolkningen</p>
         </div>
         <div className="bg-gray-50 rounded-lg p-3">

@@ -10,6 +10,8 @@ import {
   KOMMUNER,
   KOMMUNER_HISTORISKE,
 } from '../../api/ssb';
+import { KpiCard } from '../Shared/KpiCard';
+import { CollapsibleSection } from '../Shared/CollapsibleSection';
 
 const NACE_NAVN: Record<string, string> = {
   '10-33': 'Industri',
@@ -33,19 +35,6 @@ const NACE_NAVN: Record<string, string> = {
 const NABOER = Object.keys(KOMMUNER_HISTORISKE) as Array<keyof typeof KOMMUNER_HISTORISKE>;
 const NABOER_KODER_2024 = NABOER.map(n => KOMMUNER_HISTORISKE[n].fra2024);
 
-function MetricKort({
-  tittel, verdi, sub,
-}: {
-  tittel: string; verdi: string; sub?: string;
-}) {
-  return (
-    <div className="bg-gray-50 rounded-lg p-3">
-      <p className="text-xs text-gray-500 mb-0.5">{tittel}</p>
-      <p className="text-xl font-bold text-gray-800">{verdi}</p>
-      {sub && <p className="text-xs mt-0.5 text-gray-400">{sub}</p>}
-    </div>
-  );
-}
 
 function Skeleton() {
   return (
@@ -113,26 +102,23 @@ export function NaeringsPanel() {
 
       {/* Nøkkeltall */}
       <div className="grid grid-cols-2 gap-2">
-        <MetricKort
-          tittel="Medianinntekt (hushold.)"
-          verdi={bambleInntekt ? bambleInntekt.toLocaleString('nb-NO') + ' kr' : '—'}
-          sub={inntektAar ? `Inntekt etter skatt, ${inntektAar}` : 'Data ikke tilgjengelig'}
+        <KpiCard
+          label="Medianinntekt (hushold.)"
+          value={bambleInntekt ? bambleInntekt.toLocaleString('nb-NO') + ' kr' : '—'}
+          subLabel={inntektAar ? `Inntekt etter skatt, ${inntektAar}` : 'Data ikke tilgjengelig'}
         />
-        <MetricKort
-          tittel="Registrert arbeidsledige"
-          verdi={bambleLedigSiste?.verdi != null
+        <KpiCard
+          label="Registrert arbeidsledige"
+          value={bambleLedigSiste?.verdi != null
             ? (bambleLedigSiste.verdi as number).toLocaleString('nb-NO') + ' pers.'
             : '—'}
-          sub={ledigAar ?? 'Data ikke tilgjengelig'}
+          subLabel={ledigAar ?? 'Data ikke tilgjengelig'}
         />
       </div>
 
       {/* Sysselsetting per næring */}
       {syssRader.length > 0 && (
-        <div className="bg-gray-50 rounded-xl p-3">
-          <p className="text-xs font-semibold text-gray-600 mb-0.5">
-            Sysselsetting per næring{syssAar ? ` (${syssAar})` : ''}
-          </p>
+        <CollapsibleSection title={`Sysselsetting per næring${syssAar ? ` (${syssAar})` : ''}`}>
           {totalSyss && (
             <p className="text-[10px] text-gray-400 mb-2">
               Totalt {totalSyss.toLocaleString('nb-NO')} sysselsatte
@@ -155,15 +141,12 @@ export function NaeringsPanel() {
             </BarChart>
           </ResponsiveContainer>
           <p className="text-[10px] text-gray-400 mt-1">Kilde: SSB tabell 07984.</p>
-        </div>
+        </CollapsibleSection>
       )}
 
       {/* Medianinntekt kommunesammenligning */}
       {inntektData.length > 1 && (
-        <div className="bg-gray-50 rounded-xl p-3">
-          <p className="text-xs font-semibold text-gray-600 mb-2">
-            Medianinntekt per hushold.{inntektAar ? ` ${inntektAar}` : ''} (kr)
-          </p>
+        <CollapsibleSection title={`Medianinntekt per hushold.${inntektAar ? ` ${inntektAar}` : ''} (kr)`}>
           <ResponsiveContainer width="100%" height={130}>
             <BarChart
               data={inntektData}
@@ -186,7 +169,7 @@ export function NaeringsPanel() {
             </BarChart>
           </ResponsiveContainer>
           <p className="text-[10px] text-gray-400 mt-1">Kilde: SSB tabell 06944.</p>
-        </div>
+        </CollapsibleSection>
       )}
     </div>
   );

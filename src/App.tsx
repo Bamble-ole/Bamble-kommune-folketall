@@ -10,7 +10,7 @@ import { AreaSidebar } from './components/Sidebar/AreaSidebar';
 export default function App() {
   useGeoData();
 
-  const { dataLoaded, selectedArea, catchmentAnalysis } = useMapStore();
+  const { dataLoaded, selectedArea, catchmentAnalysis, compareMode } = useMapStore();
   const showSidebar = selectedArea !== null || catchmentAnalysis.length > 0;
 
   return (
@@ -50,6 +50,14 @@ export default function App() {
             <LayerToggles />
           </div>
         </div>
+
+        {/* Compare mode banner */}
+        {compareMode && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-blue-600 text-white text-xs font-semibold px-4 py-2 rounded-full shadow-lg flex items-center gap-2 pointer-events-none">
+            <span>⊕</span>
+            <span>Sammenligningsmodus — klikk på et område i kartet</span>
+          </div>
+        )}
 
         {/* Bottom-left legend */}
         <div className="absolute bottom-8 left-3 z-10">

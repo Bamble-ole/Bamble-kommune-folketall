@@ -1,5 +1,6 @@
 import { useSSB } from '../../hooks/useSSB';
 import { hentBarnehageNokkel, hentSkoleNokkel, hentOmsorgNokkel } from '../../api/ssb';
+import { CollapsibleSection } from '../Shared/CollapsibleSection';
 
 // ─── Konfigurasjon ────────────────────────────────────────────────────────────
 
@@ -132,7 +133,7 @@ function IndikatorRad({
     <div className="py-2.5 border-b border-gray-100 last:border-b-0">
       {/* Rad 1: navn + verdi */}
       <div className="flex items-baseline justify-between gap-2 mb-1.5">
-        <span className="text-xs text-gray-600 leading-snug">{meta.navn}</span>
+        <span className="text-sm text-gray-600 leading-snug">{meta.navn}</span>
         <span className="text-sm font-semibold text-gray-800 whitespace-nowrap flex-shrink-0">
           {formatert}
         </span>
@@ -168,14 +169,13 @@ function Seksjon({
   if (bamble.length === 0) return null;
 
   return (
-    <div className="bg-gray-50 rounded-xl px-3 pt-2.5 pb-1">
-      <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-0.5">{tittel}</p>
+    <CollapsibleSection title={tittel}>
       {Object.entries(indikatorer).map(([kode, meta]) => {
         const b = bamble.find(r => r.ContentsCode === kode)?.verdi ?? null;
         const l = land.find(r => r.ContentsCode === kode)?.verdi ?? null;
         return <IndikatorRad key={kode} meta={meta} bambleVerdi={b} landsVerdi={l} />;
       })}
-    </div>
+    </CollapsibleSection>
   );
 }
 

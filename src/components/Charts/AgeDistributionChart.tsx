@@ -39,10 +39,10 @@ export function AgeDistributionChart({ properties, year }: Props) {
         <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm inline-block" style={{ background: COLORS.adult }} />20–59 år</span>
         <span className="flex items-center gap-1"><span className="w-3 h-3 rounded-sm inline-block" style={{ background: COLORS.senior }} />60+ år</span>
       </div>
-      <ResponsiveContainer width="100%" height={180}>
-        <BarChart data={data} margin={{ top: 4, right: 4, left: -20, bottom: 0 }}>
+      <ResponsiveContainer width="100%" height={200}>
+        <BarChart data={data} margin={{ top: 4, right: 4, left: -12, bottom: 0 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-          <XAxis dataKey="name" tick={{ fontSize: 9 }} interval={0} angle={-45} textAnchor="end" height={40} />
+          <XAxis dataKey="name" tick={{ fontSize: 9 }} interval={0} angle={-35} textAnchor="end" height={44} />
           <YAxis tick={{ fontSize: 10 }} />
           <Tooltip
             formatter={(val: unknown) => [`${val} pers.`, 'Antall']}

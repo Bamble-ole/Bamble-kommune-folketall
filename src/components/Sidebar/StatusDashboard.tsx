@@ -1,18 +1,6 @@
 import { useMapStore, BASE_YEAR } from '../../store/mapStore';
-
-function StatCard({
-  label, value, sub = '', valueColor = 'text-gray-800',
-}: {
-  label: string; value: string; sub?: string; valueColor?: string;
-}) {
-  return (
-    <div className="bg-gray-50 rounded-lg p-3">
-      <p className="text-xs text-gray-500 mb-0.5">{label}</p>
-      <p className={`text-xl font-bold ${valueColor}`}>{value}</p>
-      {sub && <p className="text-xs text-gray-400">{sub}</p>}
-    </div>
-  );
-}
+import { KpiCard } from '../Shared/KpiCard';
+import { SparklineChart } from '../Shared/SparklineChart';
 
 function StatusRow({
   color, label, value,
@@ -29,7 +17,7 @@ function StatusRow({
     <div className="flex items-start gap-2 py-1.5 border-b border-gray-100 last:border-0">
       <span className={`mt-0.5 flex-shrink-0 w-2.5 h-2.5 rounded-full ${dotClass}`} />
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-medium text-gray-700 truncate">{label}</p>
+        <p className="text-sm font-medium text-gray-700 truncate">{label}</p>
         <p className="text-xs text-gray-500">{value}</p>
       </div>
     </div>
@@ -88,18 +76,23 @@ export function StatusDashboard() {
   const topGrowth   = [...kretserWithChange].sort((a, b) => b.endring - a.endring).slice(0, 3);
   const topDecline  = [...kretserWithChange].sort((a, b) => a.endring - b.endring).slice(0, 3);
 
+  // Sparkline: total population per year in allYearData, sorted by year
+  const popSparkData = Object.entries(allYearData)
+    .sort(([a], [b]) => Number(a) - Number(b))
+    .map(([, geo]) => geo.features.reduce((s, f) => s + f.properties.totalBefolkning, 0));
+
   return (
     <div className="space-y-5">
       {/* Section 1: Kommunestatistikk */}
       <div>
         <h3 className="text-sm font-semibold text-gray-700 mb-2">Bamble kommune</h3>
         <div className="grid grid-cols-2 gap-2">
-          <StatCard
+          <KpiCard
             label={`Innbyggere ${activeYear}`}
             value={totalPop.toLocaleString('nb-NO')}
-            sub=""
+            sparkline={popSparkData.length > 1 ? <SparklineChart data={popSparkData} /> : undefined}
           />
-          <StatCard
+          <KpiCard
             label={`Siden ${BASE_YEAR}`}
             value={
               totalChange != null
@@ -110,17 +103,18 @@ export function StatusDashboard() {
               totalChange == null ? 'text-gray-400' :
               totalChange > 0 ? 'text-green-600' : 'text-red-600'
             }
-            sub="personer"
+            trend={totalChange == null ? undefined : totalChange > 0 ? 'up' : 'down'}
+            subLabel="personer"
           />
-          <StatCard
+          <KpiCard
             label="Andel eldre (60+)"
             value={`${andelEldre.toFixed(1)}%`}
-            sub={`${totalEldre.toLocaleString('nb-NO')} pers.`}
+            subLabel={`${totalEldre.toLocaleString('nb-NO')} pers.`}
           />
-          <StatCard
+          <KpiCard
             label="Andel unge (0–19)"
             value={`${andelYngre.toFixed(1)}%`}
-            sub={`${totalYngre.toLocaleString('nb-NO')} pers.`}
+            subLabel={`${totalYngre.toLocaleString('nb-NO')} pers.`}
           />
         </div>
       </div>
